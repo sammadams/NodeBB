@@ -17,6 +17,13 @@ var apiController = module.exports;
 
 apiController.loadConfig = function (req, callback) {
 	var config = {};
+	//philu-code -- start
+    if(req.query.iframe){
+        config.embedView = true;
+    }else{
+        config.embedView = false;
+    }
+    //philu-code -- end
 	config.environment = process.env.NODE_ENV;
 	config.relative_path = nconf.get('relative_path');
 	config.version = nconf.get('version');
