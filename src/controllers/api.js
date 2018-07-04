@@ -18,9 +18,9 @@ var apiController = module.exports;
 apiController.loadConfig = function (req, callback) {
 	var config = {};
 	//philu-code -- start
-    if(req.query.iframe){
+    if(req.query.iframe || req.cookies.iframe === 'embedView') {
         config.embedView = true;
-    }else{
+    } else {
         config.embedView = false;
     }
     //philu-code -- end
