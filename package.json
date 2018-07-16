@@ -97,7 +97,12 @@
     "winston": "^2.3.1",
     "xml": "^1.0.1",
     "xregexp": "3.2.0",
-    "zxcvbn": "^4.4.2"
+    "zxcvbn": "^4.4.2",
+    "nodebb-plugin-custom-join": "philanthropy-u/nodebb-plugin-custom-join",
+    "nodebb-plugin-s3-uploads": "philanthropy-u/nodebb-plugin-s3-uploads",
+    "nodebb-plugin-session-sharing": "philanthropy-u/nodebb-plugin-session-sharing",
+    "nodebb-plugin-write-api": "philanthropy-u/nodebb-plugin-write-api",
+    "nodebb-theme-philu-community": "philanthropy-u/nodebb-theme-philu-community"
   },
   "devDependencies": {
     "coveralls": "^2.11.14",
