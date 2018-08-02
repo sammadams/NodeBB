@@ -100,7 +100,7 @@
     "nodebb-plugin-s3-uploads": "philanthropy-u/nodebb-plugin-s3-uploads",
     "nodebb-plugin-session-sharing": "philanthropy-u/nodebb-plugin-session-sharing",
     "nodebb-plugin-write-api": "philanthropy-u/nodebb-plugin-write-api",
-    "nodebb-theme-philu-community": "git+ssh://git@github.com:philanthropy-u/nodebb-theme-philu-community.git"
+    "nodebb-theme-philu-community": "git+ssh://git@github.com:philanthropy-u/nodebb-theme-philu-community.git#osama/rackspace-staging"
   },
   "devDependencies": {
     "coveralls": "^2.11.14",
