@@ -59,7 +59,7 @@
     "nodebb-plugin-composer-default": "5.0.8",
     "nodebb-plugin-dbsearch": "2.0.6",
     "nodebb-plugin-markdown": "8.1.0",
-    "nodebb-plugin-mentions": "2.1.6",
+    "nodebb-plugin-mentions": "philanthropy-u/nodebb-plugin-mentions",
     "nodebb-plugin-soundpack-default": "1.0.0",
     "nodebb-plugin-spam-be-gone": "0.5.1",
     "nodebb-rewards-essentials": "0.0.9",
