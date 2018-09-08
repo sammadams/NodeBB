@@ -58,10 +58,7 @@
     "nconf": "^0.8.4",
     "nodebb-plugin-composer-default": "5.0.8",
     "nodebb-plugin-dbsearch": "2.0.6",
-    "nodebb-plugin-emoji-extended": "1.1.1",
-    "nodebb-plugin-emoji-one": "1.2.1",
     "nodebb-plugin-markdown": "8.1.0",
-    "nodebb-plugin-mentions": "philanthropy-u/nodebb-plugin-mentions",
     "nodebb-plugin-soundpack-default": "1.0.0",
     "nodebb-plugin-spam-be-gone": "0.5.1",
     "nodebb-rewards-essentials": "0.0.9",
@@ -97,7 +94,13 @@
     "winston": "^2.3.1",
     "xml": "^1.0.1",
     "xregexp": "3.2.0",
-    "zxcvbn": "^4.4.2"
+    "zxcvbn": "^4.4.2",
+    "nodebb-plugin-custom-join": "philanthropy-u/nodebb-plugin-custom-join",
+    "nodebb-plugin-s3-uploads": "philanthropy-u/nodebb-plugin-s3-uploads",
+    "nodebb-plugin-session-sharing": "philanthropy-u/nodebb-plugin-session-sharing",
+    "nodebb-plugin-write-api": "philanthropy-u/nodebb-plugin-write-api",
+    "nodebb-plugin-mentions": "philanthropy-u/nodebb-plugin-mentions",
+    "nodebb-plugin-youtube-embed": "0.6.7"
   },
   "devDependencies": {
     "coveralls": "^2.11.14",
