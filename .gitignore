@@ -47,6 +47,7 @@ pidfile
 ## Directory-based project format:
 .idea/
 .vscode/
+plugins/
 
 ## File-based project format:
 *.ipr
@@ -64,3 +65,5 @@ build
 test/files/normalise.jpg.png
 test/files/normalise-resized.jpg
 package-lock.json
+
+
