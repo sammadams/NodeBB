@@ -189,32 +189,3 @@ middleware.delayLoading = function (req, res, next) {
 	setTimeout(next, 1000);
 };
 
-var viewsDir = nconf.get('views_dir');
-middleware.templatesOnDemand = function (req, res, next) {
-	var filePath = req.filePath || path.join(viewsDir, req.path);
-	if (!filePath.endsWith('.jst')) {
-		return next();
-	}
-
-	async.waterfall([
-		function (cb) {
-			file.exists(filePath, cb);
-		},
-		function (exists, cb) {
-			if (exists) {
-				return next();
-			}
-
-			fs.readFile(filePath.replace(/\.jst$/, '.tpl'), cb);
-		},
-		function (source, cb) {
-			Benchpress.precompile({
-				source: source.toString(),
-				minify: global.env !== 'development',
-			}, cb);
-		},
-		function (compiled, cb) {
-			fs.writeFile(filePath, compiled, cb);
-		},
-	], next);
-};

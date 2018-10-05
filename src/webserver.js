@@ -122,17 +122,9 @@ function setupExpressApp(app, callback) {
 	var viewsDir = nconf.get('views_dir');
 
 	app.engine('tpl', function (filepath, data, next) {
-		filepath = filepath.replace(/\.tpl$/, '.jst');
+		filepath = filepath.replace(/\.tpl$/, '.js');
 
-		middleware.templatesOnDemand({
-			filePath: filepath,
-		}, null, function (err) {
-			if (err) {
-				return next(err);
-			}
-
-			Benchpress.__express(filepath, data, next);
-		});
+		Benchpress.__express(filepath, data, next);
 	});
 	app.set('view engine', 'tpl');
 	app.set('views', viewsDir);

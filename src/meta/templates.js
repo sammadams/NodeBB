@@ -7,6 +7,8 @@ var async = require('async');
 var path = require('path');
 var fs = require('fs');
 var nconf = require('nconf');
+var _ = require('lodash');
+var Benchpress = require('benchpressjs');
 
 var plugins = require('../plugins');
 var file = require('../file');
@@ -69,18 +71,81 @@ Templates.compile = function (callback) {
 							next(err, source);
 						});
 					},
-					function (compiled, next) {
-						fs.writeFile(path.join(viewsPath, relativePath), compiled, next);
+					function (imported, next) {
+						async.parallel([
+							function (cb) {
+								fs.writeFile(path.join(viewsPath, relativePath), imported, cb);
+							},
+							function (cb) {
+								Benchpress.precompile(imported, { minify: global.env !== 'development' }, function (err, compiled) {
+									if (err) {
+										return cb(err);
+									}
+									fs.writeFile(path.join(viewsPath, relativePath.replace(/\.tpl$/, '.js')), compiled, cb);
+								});
+							},
+						], next);
 					},
 				], next);
 			}, next);
 		},
 		function (next) {
-			rimraf(path.join(viewsPath, '*.jst'), next);
-		},
-		function (next) {
 			winston.verbose('[meta/templates] Successfully compiled templates.');
 			next();
+		},
+	], callback);
+};
+
+function processImports(paths, templatePath, source, callback) {
+	var regex = /<!-- IMPORT (.+?) -->/;
+
+	var matches = source.match(regex);
+
+	if (!matches) {
+		return callback(null, source);
+	}
+
+	var partial = matches[1];
+	if (paths[partial] && templatePath !== partial) {
+		fs.readFile(paths[partial], 'utf8', function (err, partialSource) {
+			if (err) {
+				return callback(err);
+			}
+
+			source = source.replace(regex, partialSource);
+			processImports(paths, templatePath, source, callback);
+		});
+	} else {
+		winston.warn('[meta/templates] Partial not loaded: ' + matches[1]);
+		source = source.replace(regex, '');
+
+		processImports(paths, templatePath, source, callback);
+	}
+}
+
+Templates.compileTemplate = function (filename, source, callback) {
+	async.waterfall([
+		function (next) {
+			file.walk(viewsPath, next);
+		},
+		function (paths, next) {
+			paths = _.fromPairs(paths.map(function (p) {
+				var relative = path.relative(viewsPath, p).replace(/\\/g, '/');
+				return [relative, p];
+			}));
+			async.waterfall([
+				function (next) {
+					processImports(paths, filename, source, next);
+				},
+				function (source, next) {
+					Benchpress.precompile(source, {
+						minify: global.env !== 'development',
+					}, next);
+				},
+				function (compiled, next) {
+					fs.writeFile(path.join(viewsPath, filename.replace(/\.tpl$/, '.js')), compiled, next);
+				},
+			], next);
 		},
 	], callback);
 };
