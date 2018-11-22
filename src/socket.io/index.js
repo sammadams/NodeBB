@@ -203,14 +203,12 @@ function authorize(socket, callback) {
 				}
 			 if(socket && socket.request && socket.request.cookies && socket.request.cookies.token){
 					 var username = jwt.verify(socket.request.cookies.token, 'secret').username || '';
-					 var database = db.client;
-console.log(username)
+					 var database = db.client;)
 					 database.collection('objects').findOne({_key: /user:\d/i, username: username}, {uid: 1}, function (err, result) {
 						 if(err){
 						 	next(err);
 						 	return;
 						 }else {
-console.log(result)
 						 	socket.uid = result.uid;
 						 	next();
 						 }
