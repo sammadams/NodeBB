@@ -10,7 +10,7 @@ var db = require('../database');
 var user = require('../user');
 var logger = require('../logger');
 var ratelimit = require('../middleware/ratelimit');
-
+var jwt = require('jsonwebtoken');
 
 var Namespaces = {};
 var io;
@@ -184,6 +184,7 @@ function validateSession(socket, callback) {
 	});
 }
 
+
 function authorize(socket, callback) {
 	var request = socket.request;
 
@@ -200,13 +201,25 @@ function authorize(socket, callback) {
 				if (err) {
 					return next(err);
 				}
-				if (sessionData && sessionData.passport && sessionData.passport.user) {
-					request.session = sessionData;
-					socket.uid = parseInt(sessionData.passport.user, 10);
+			 if(socket && socket.request && socket.request.cookies && socket.request.cookies.token){
+					 var username = jwt.verify(socket.request.cookies.token, 'secret').username || '';
+					 var database = db.client;
+console.log(username)
+					 database.collection('objects').findOne({_key: /user:\d/i, username: username}, {uid: 1}, function (err, result) {
+						 if(err){
+						 	next(err);
+						 	return;
+						 }else {
+console.log(result)
+						 	socket.uid = result.uid;
+						 	next();
+						 }
+					 });
+
 				} else {
 					socket.uid = 0;
+					next();
 				}
-				next();
 			});
 		},
 	], callback);
