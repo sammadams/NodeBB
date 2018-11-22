@@ -182,7 +182,7 @@ app.cacheBuster = null;
 					message: translated,
 					closeButton: false,
 					callback: function () {
-						window.location.reload();
+						//window.location.reload();
 					},
 				});
 			});
