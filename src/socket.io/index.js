@@ -202,12 +202,10 @@ function authorize(socket, callback) {
 					 var database = db.client;
 					 database.collection('objects').findOne({_key: /user:\d/i, username: username}, {uid: 1}, function (err, result) {
 						 if(err){
-						 	next(err);
-						 	return;
-						 }else {
-						 	socket.uid = result.uid;
-						 	next();
+						 	return next(err);
 						 }
+						 socket.uid = result.uid;
+						 next();
 					 });
 
 				} else {
