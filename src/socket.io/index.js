@@ -204,7 +204,7 @@ function authorize(socket, callback) {
 						 if(err){
 						 	return next(err);
 						 }
-						 socket.uid = result.uid;
+						 socket.uid = result && result.uid ? result.uid : 0;
 						 next();
 					 });
 
