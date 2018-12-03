@@ -22,7 +22,8 @@ app_name: [nodebbNewRelicConfig.appName],
      * issues with the agent, 'info' and higher will impose the least overhead on
      * production applications.
      */
-    level: 'info'
+    filepath: require('path').join(process.cwd(), 'logs/newrelic_agent.log'),
+    level: 'error'
   },
   /**
    * When true, all request headers except for those listed in attributes.exclude
