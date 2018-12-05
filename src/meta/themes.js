@@ -19,12 +19,10 @@ var Themes = module.exports;
 var themeNamePattern = /^(@.*?\/)?nodebb-theme-.*$/;
 
 
-function linkAndActivatePhiluTheme(callback){
+function linkPhiluTheme(callback){
 	async.waterfall([
 		function(next){
 			exec('npm link nodebb-theme-philu-community', next);
-		},function (next) {
-			exec('./nodebb activate nodebb-theme-philu-community', next);
 		}
 	], function(err){
 		callback(err);
@@ -38,7 +36,7 @@ Themes.get = function (callback) {
 
 	async.waterfall([
 		function(next){
-			linkAndActivatePhiluTheme(next);
+			linkPhiluTheme(next);
 		},
 		function (next) {
 			fs.readdir(themePath, next);
