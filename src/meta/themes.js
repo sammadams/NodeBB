@@ -11,11 +11,25 @@ var file = require('../file');
 var db = require('../database');
 var Meta = require('../meta');
 var events = require('../events');
+var sys = require('sys')
+var exec = require('child_process').exec;
 
 var Themes = module.exports;
 
 var themeNamePattern = /^(@.*?\/)?nodebb-theme-.*$/;
 
+
+function linkAndActivatePhiluTheme(callback){
+	async.waterfall([
+		function(next){
+			exec('npm link nodebb-theme-philu-community', next);
+		},function (next) {
+			exec('./nodebb activate nodebb-theme-philu-community', next);
+		}
+	], function(err){
+		callback(err);
+	});
+}
 Themes.get = function (callback) {
 	var themePath = nconf.get('themes_path');
 	if (typeof themePath !== 'string') {
@@ -23,6 +37,9 @@ Themes.get = function (callback) {
 	}
 
 	async.waterfall([
+		function(next){
+			linkAndActivatePhiluTheme(next);
+		},
 		function (next) {
 			fs.readdir(themePath, next);
 		},
