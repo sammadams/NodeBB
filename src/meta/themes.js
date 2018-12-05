@@ -11,7 +11,6 @@ var file = require('../file');
 var db = require('../database');
 var Meta = require('../meta');
 var events = require('../events');
-var sys = require('sys')
 var exec = require('child_process').exec;
 
 var Themes = module.exports;
