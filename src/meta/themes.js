@@ -26,12 +26,6 @@ function linkPhiluTheme(callback){
 			exec('npm link nodebb-plugin-session-sharing', next);
 		}, function (next) {
 			exec('npm link nodebb-plugin-s3-uploads', next);
-		}, function (next) {
-			exec('./nodebb activate nodebb-plugin-session-sharing', next);
-		}, function (next) {
-			exec('./nodebb activate nodebb-plugin-s3-uploads', next);
-		}, function (next) {
-			exec('./nodebb activate nodebb-theme-philu-community', next);
 		}
 	], function(err){
 		callback(err);
