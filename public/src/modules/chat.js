@@ -251,7 +251,7 @@ define('chat', [
 			Chats.addIPHandler(chatModal);
 
 			taskbar.push('chat', chatModal.attr('data-uuid'), {
-				title: '[[modules:chat.chatting_with]] ' + (data.roomName || (data.users.length ? data.users[0].username : '')),
+				title: data.roomName || (data.users.length ? data.users[0].username : ''),
 				roomId: data.roomId,
 				icon: 'fa-comment',
 				state: '',
