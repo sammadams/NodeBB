@@ -18,7 +18,8 @@
 */
 
 'use strict';
-
+// philu new relic
+require('newrelic');
 if (require.main !== module) {
 	require.main.require = function (path) {
 		return require(path);
