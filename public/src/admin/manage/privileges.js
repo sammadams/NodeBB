@@ -11,7 +11,7 @@ define('admin/manage/privileges', [
 	var cid;
 
 	Privileges.init = function () {
-		cid = ajaxify.data.cid || 0;
+		cid = ajaxify.data.category ? ajaxify.data.category.cid : 0;
 
 		$('#category-selector').on('change', function () {
 			var val = $(this).val();

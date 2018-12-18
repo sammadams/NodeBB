@@ -43,19 +43,7 @@ dashboardController.get = function (req, res, next) {
 					}
 
 					plugins.fireHook('filter:admin.notices', notices, next);
-				},
-				latestVersion: function (next) {
-					versions.getLatestVersion(function (err, result) {
-						if (err) {
-							winston.error('[acp] Failed to fetch latest version', err);
-						}
-
-						next(null, err ? null : result);
-					});
-				},
-				lastrestart: function (next) {
-					getLastRestart(next);
-				},
+				}
 			}, next);
 		},
 		function (results) {

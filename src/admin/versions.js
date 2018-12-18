@@ -33,7 +33,7 @@ function getLatestVersion(callback) {
 		}
 
 		if (res.statusCode !== 200) {
-			return callback(Error(res.statusMessage));
+			return callback(null, {});
 		}
 
 		releases = releases.filter(function (version) {
