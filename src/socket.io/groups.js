@@ -72,7 +72,7 @@ SocketGroups.leave = function (socket, data, callback) {
 };
 
 SocketGroups.addMember = isOwner(function (socket, data, callback) {
-	if (data.groupName === 'administrators' || groups.isPrivilegeGroup(data.groupName)) {
+	if (groups.isPrivilegeGroup(data.groupName)) {
 		return callback(new Error('[[error:not-allowed]]'));
 	}
 	groups.join(data.groupName, data.uid, callback);
