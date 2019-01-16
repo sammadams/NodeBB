@@ -27,6 +27,7 @@ define('forum/chats', [
 		recentChats.init();
 
 		Chats.addEventListeners();
+		Chats.createTagsInput($('[component="chat/messages"] .users-tag-input'), ajaxify.data);
 		Chats.createAutoComplete($('[component="chat/input"]'));
 		Chats.resizeMainWindow();
 
@@ -374,6 +375,75 @@ define('forum/chats', [
 		if (data.strategies.length) {
 			data.element.textcomplete(data.strategies, data.options);
 		}
+	};
+
+	Chats.createTagsInput = function (tagEl, data) {
+		tagEl.tagsinput({
+			confirmKeys: [13, 44],
+			trimValue: true,
+		});
+
+		if (data.users && data.users.length) {
+			data.users.forEach(function (user) {
+				tagEl.tagsinput('add', $('<div/>').html(user.username).text());
+			});
+		}
+
+		tagEl.on('beforeItemAdd', function (event) {
+			event.cancel = event.item === app.user.username;
+		});
+
+		tagEl.on('itemAdded', function (event) {
+			if (event.item === app.user.username) {
+				return;
+			}
+			socket.emit('modules.chats.addUserToRoom', {
+				roomId: data.roomId,
+				username: event.item,
+			}, function (err) {
+				if (err) {
+					app.alertError(err.message);
+					tagEl.tagsinput('remove', event.item, {
+						nouser: true,
+					});
+				}
+			});
+		});
+
+		tagEl.on('beforeItemRemove', function (event) {
+			if (event.options && event.options.nouser) {
+				return;
+			}
+
+			event.cancel = !data.isOwner || tagEl.tagsinput('items').length < 2;
+			if (!data.owner) {
+				return app.alertError('[[error:not-allowed]]');
+			}
+
+			if (tagEl.tagsinput('items').length < 2) {
+				return app.alertError('[[error:cant-remove-last-user]]');
+			}
+		});
+
+		tagEl.on('itemRemoved', function (event) {
+			if (event.options && event.options.nouser) {
+				return;
+			}
+			socket.emit('modules.chats.removeUserFromRoom', {
+				roomId: data.roomId,
+				username: event.item,
+			}, function (err) {
+				if (err) {
+					return app.alertError(err.message);
+				}
+			});
+		});
+
+		var input = $('.users-tag-container').find('.bootstrap-tagsinput input');
+
+		require(['autocomplete'], function (autocomplete) {
+			autocomplete.user(input);
+		});
 	};
 
 	Chats.leave = function (el) {
