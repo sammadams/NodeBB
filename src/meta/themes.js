@@ -16,21 +16,6 @@ var exec = require('child_process').exec;
 var Themes = module.exports;
 
 var themeNamePattern = /^(@.*?\/)?nodebb-theme-.*$/;
-
-
-function linkPhiluTheme(callback){
-	async.parallel([
-		function(next){
-			exec('npm link nodebb-theme-philu-community', next);
-		}, function (next) {
-			exec('npm link nodebb-plugin-session-sharing', next);
-		}, function (next) {
-			exec('npm link nodebb-plugin-s3-uploads', next);
-		}
-	], function(err){
-		callback(err);
-	});
-}
 Themes.get = function (callback) {
 	var themePath = nconf.get('themes_path');
 	if (typeof themePath !== 'string') {
@@ -38,9 +23,6 @@ Themes.get = function (callback) {
 	}
 
 	async.waterfall([
-		function(next){
-			linkPhiluTheme(next);
-		},
 		function (next) {
 			fs.readdir(themePath, next);
 		},
