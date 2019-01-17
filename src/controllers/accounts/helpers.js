@@ -54,41 +54,8 @@ helpers.getUserDataByUserSlug = function (userslug, callerUID, callback) {
 					plugins.fireHook('filter:user.profileMenu', {
 						uid: uid,
 						callerUID: callerUID,
-						links: [{
-							id: 'info',
-							route: 'info',
-							name: '[[user:account_info]]',
-							visibility: {
-								self: false,
-								other: false,
-								moderator: true,
-								globalMod: true,
-								admin: true,
-							},
-						}, {
-							id: 'sessions',
-							route: 'sessions',
-							name: '[[pages:account/sessions]]',
-							visibility: {
-								self: true,
-								other: false,
-								moderator: false,
-								globalMod: false,
-								admin: false,
-							},
-						}, {
-							id: 'consent',
-							route: 'consent',
-							name: '[[user:consent.title]]',
-							visibility: {
-								self: true,
-								other: false,
-								moderator: false,
-								globalMod: false,
-								admin: false,
-							},
-						}],
-					}, next);
+						links:[]
+}, next);
 				},
 				groups: function (next) {
 					groups.getUserGroups([uid], next);
