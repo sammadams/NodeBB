@@ -9,13 +9,19 @@ navigationController.get = function (req, res, next) {
 	async.waterfall([
 		navigationAdmin.getAdmin,
 		function (data) {
-			data.enabled.forEach(function (enabled, index) {
-				enabled.index = index;
-				enabled.selected = index === 0;
-			});
+			if(data){
+				data.enabled.forEach(function (enabled, index) {
+					if(enabled){
+						enabled.index = index;
+						enabled.selected = index === 0;
+					}
+				});
 
-			data.navigation = data.enabled.slice();
+				data.navigation = data.enabled.slice();
 
+			} else {
+				data = {};
+			}
 			res.render('admin/general/navigation', data);
 		},
 	], next);
